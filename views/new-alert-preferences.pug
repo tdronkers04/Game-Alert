@@ -1,0 +1,36 @@
+extends layout 
+
+block main 
+  h2 Select Your Preferences:
+  br
+  h3=teamName
+  form(action="/alerts/new/preferences" method="post")
+    dl 
+      dt
+        p When would you like to be notified?
+        label.pref(for="frequencyAll") All Games
+        input(type="radio" 
+                id="frequencyAll" 
+                name=`frequency`
+                value="all")
+        label.pref(for="frequencyPrime") Primetime Only
+        input(type="radio" 
+                id="frequencyPrime" 
+                name=`frequency`
+                value="primetime")
+      dt
+        p How Would you like to be notified?
+        label.pref(for="email") e-mail
+        input(type="radio"
+                id="email" 
+                name="commPref"
+                value="email")
+        label.pref(for="text") text
+        input(type="radio"
+                id="text" 
+                name="commPref"
+                value="sms")   
+    
+    fieldset.actions 
+      input(type="submit" value="Submit")
+      a(href="/alerts") Cancel    

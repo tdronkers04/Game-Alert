@@ -3,7 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const flash = require("express-flash");
 const session = require("express-session");
-const { body, validationResult } = require("express-validator");
+// const { body, validationResult } = require("express-validator");
 const store = require("connect-loki");
 const PgPersistence = require("./lib/pg-persistence");
 const catchError = require("./lib/catch-error");
@@ -72,7 +72,7 @@ app.get("/", (req, res) => {
   res.redirect("/alerts");
 });
 
-app.get("/alert/new/league",
+app.get("/alerts/new/league",
   requiresAuthentication,
   (req, res) => {
     res.render("new-alert-league");
@@ -81,13 +81,14 @@ app.get("/alert/new/league",
 
 app.post("/alerts/new/league",
   requiresAuthentication,
-  catchError(async (req, res) => {
-    let store = res.locals.store;
+  catchError((req, res) => {
     let leagueId = Number(req.body.league);
 
     if (!leagueId) {
       req.flash("error", "Please Select a League");
-      res.render("new-alert-league");
+      res.render("new-alert-league", {
+        flash : req.flash(),
+      });
     } else {
       req.session.newLeagueId = leagueId;
       res.redirect("/alerts/new/team");
@@ -105,7 +106,6 @@ app.get("/alerts/new/team",
       throw new Error("Not Found.");
     } else {
       let leagueTeams = await store.retrieveTeams(leagueId);
-      console.log(leagueTeams);
       res.render("new-alert-team", {
         leagueTeams
       });
@@ -115,17 +115,54 @@ app.get("/alerts/new/team",
 
 app.post("/alerts/new/team",
   requiresAuthentication,
+  catchError((req, res) => {
+    let team = req.body.team ? JSON.parse(req.body.team) : undefined;
+    console.log(team);
+    if (!team) {
+      req.flash("error", "Please Select a Team");
+      res.redirect("/alerts/new/team");
+    } else {
+      req.session.newTeamId = team.teamid;
+      req.session.newTeamName = team.team_name_full;
+      res.redirect("/alerts/new/preferences");
+    }
+  })
+);
+
+app.get("/alerts/new/preferences",
+  requiresAuthentication,
+  catchError((req, res) => {
+    let teamName = req.session.newTeamName;
+    if (!teamName) {
+      throw new Error("Not Found.");
+    } else {
+      res.render("new-alert-preferences", {
+        teamName
+      });
+    }
+  })
+);
+
+app.post("/alerts/new/preferences",
+  requiresAuthentication,
   catchError(async (req, res) => {
     let store = res.locals.store;
-    let team = JSON.parse(req.body.team);
-    let teamId = team.teamid;
+    let newFreq = req.body.frequency;
+    let newComm = req.body.commPref;
 
-    if (!teamId) {
-      req.flash("error", "Please Select a Team");
-      res.render("new-alert-team");
+    if (!newFreq || !newComm) {
+      req.flash("error", "Please Select Your Preferences");
+      res.redirect("/alerts/new/preferences");
     } else {
-      req.session.newTeamId = teamId;
-      res.redirect("/alerts/new/preferences"); // LEFT OFF HERE :)
+      let newTeamId = req.session.newTeamId;
+      let addedAlert = await store.addNewAlert(newTeamId, newComm, newFreq);
+
+      if (!addedAlert) {
+        req.flash("error", "Please try again");
+        res.redirect("/alerts/new/preferences");
+      }
+      req.flash("success", "Alert added.");
+      res.redirect("/alerts");
     }
   })
 );

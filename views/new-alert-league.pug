@@ -3,33 +3,33 @@ extends layout
 block main 
   h2 Select a League:
   form(action="/alerts/new/league" method="post")
-    dl 
-      dt 
+    dl
+      dt
         input(type="radio"
                 id="NFL"
                 name="league"
                 value=1)  
         label(for="NFL") National Football League  
         
-      dt 
+      dt
         input(type="radio"
               id="NBA"
               name="league"
               value=2)  
         label(for="NBA") National Basketball Association
-      
-      dt 
+                      
+      dt
         input(type="radio"
               id="MLB"
               name="league"
               value=3)
         label(for="MLB") Major League Baseball
       
-      dt 
+      dt
         input(type="radio"
               id="NHL"
               name="league"
-              value=4) 
+              value=5) 
         label(for="NHL") National Hockey League
        
     fieldset.actions 

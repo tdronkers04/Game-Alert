@@ -437,7 +437,11 @@ form fieldset.actions a:hover {
   color: #bebebe;
 }
 
-input[type="radio"] {
+form input[type="radio"] {
   transform: translateX(-0.3em);
 }
 
+form label.pref {
+  margin-right: 0.5em;
+  margin-left: 0.5em;
+}
