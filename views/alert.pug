@@ -6,6 +6,11 @@ block main
       h2= alert.team_name_full
       ul
         li
+          - let prompt = alert.active ? 'Deactivate' : 'Activate';
+          form.deactivate(action=`/alert/${alert.id}/deactivate`
+                        method="post")
+                button #{prompt}
+        li
           form.delete(action=`/alert/${alert.id}/destroy`
                         method="post")
                 button Delete Alert

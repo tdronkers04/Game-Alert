@@ -61,7 +61,6 @@ app.get("/alerts",
   requiresAuthentication,
   catchError(async (req, res) => {
     let store = res.locals.store;
-    // console.log(req.session); // ??
     let alerts = await store.loadAllAlerts();
     res.render("alerts", {
       alerts,
@@ -70,6 +69,10 @@ app.get("/alerts",
 );
 
 app.get("/", (req, res) => {
+  res.redirect("/alerts");
+});
+
+app.get("/alert", (req, res) => {
   res.redirect("/alerts");
 });
 
@@ -232,6 +235,22 @@ app.post("/alert/:alertId/destroy",
       throw new Error("Not Found.");
     } else {
       req.flash("success", `Alert has been deleted.`);
+    }
+    res.redirect(`/alerts`);
+  })
+);
+
+app.post("/alert/:alertId/deactivate",
+  requiresAuthentication,
+  catchError(async (req, res) => {
+    let store = res.locals.store;
+    let alertId = Number(req.params.alertId);
+    let deactivatedAlert = await store.deactivateAlert(alertId);
+
+    if (!deactivatedAlert) {
+      throw new Error("Not Found.");
+    } else {
+      req.flash("success", `Alert has been deactivated.`);
     }
     res.redirect(`/alerts`);
   })
