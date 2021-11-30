@@ -1,0 +1,18 @@
+extends layout 
+
+block main 
+  h2 Select a Team:
+  form(action="/alerts/new/team" method="post")
+    dl 
+      each team, teamIndex in leagueTeams
+        - let teamInfo = leagueTeams[teamIndex];
+          dt 
+            input(type="radio"
+                    id=teamInfo
+                    name="team"
+                    value=teamInfo)  
+            label(for="NFL") #{team.team_name_full}
+        
+    fieldset.actions 
+      input(type="submit" value="Continue")
+      a(href="/alerts") Cancel    

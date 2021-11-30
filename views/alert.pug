@@ -1,0 +1,24 @@
+extends layout 
+
+block main 
+  section#todos(class=alert.active ? "" : "done")
+    header 
+      h2= alert.team_name_full
+      ul
+        li
+          form.delete(action=`/alert/${alert.id}/destroy`
+                        method="post")
+                button Delete Alert
+
+    ul
+      li 
+        p= (`Communication Mode: ${alert.mode === 'sms' ? 'Text message' : 'Email'}`) 
+      li 
+        p= (`Frequency: ${alert.freq === 'all' ? 'All games' : 'Primetime games'}`)
+      li 
+        p= (`Status: ${alert.active ? 'Active' : 'Inactive'}`)
+          
+          
+block headerLinks 
+  .actions 
+    a.list(href="/alerts") All Alerts 

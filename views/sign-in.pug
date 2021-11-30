@@ -1,0 +1,23 @@
+extends layout 
+
+block main 
+
+  form(action=`/users/signin` method="post")
+        dl  
+          dt 
+            label(for="username") Username: 
+          dd 
+            input(type="text"
+                  name="username"
+                  placeholder= (username ? username : "username")
+                  value=username)
+          dt 
+            label(for="password") Password: 
+          dd 
+            input(type="text"
+                  name="password"
+                  placeholder="password")
+        fieldset.actions  
+          input(type="submit" value="Sign In")
+
+block signIn

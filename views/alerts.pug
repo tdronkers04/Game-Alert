@@ -1,0 +1,15 @@
+extends layout 
+
+block main 
+  if alerts === undefined || alerts.length === 0
+    p#no_list You don't have any Game Alerts. Why not create one?
+  else  
+    ul#lists 
+      each alert in alerts
+        li(class=alert.active ? "" : "done")
+          a(href=`/alert/${alert.id}`)
+            h2= `${alert.team_name_full} - [${alert.mode}]`
+            
+block headerLinks 
+  .actions 
+    a.add(href="/alert/new/league") New Alert
