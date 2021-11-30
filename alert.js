@@ -61,6 +61,7 @@ app.get("/alerts",
   requiresAuthentication,
   catchError(async (req, res) => {
     let store = res.locals.store;
+    // console.log(req.session); // ??
     let alerts = await store.loadAllAlerts();
     res.render("alerts", {
       alerts,
@@ -117,7 +118,7 @@ app.post("/alerts/new/team",
   requiresAuthentication,
   catchError((req, res) => {
     let team = req.body.team ? JSON.parse(req.body.team) : undefined;
-    console.log(team);
+
     if (!team) {
       req.flash("error", "Please Select a Team");
       res.redirect("/alerts/new/team");
@@ -162,6 +163,7 @@ app.post("/alerts/new/preferences",
         res.redirect("/alerts/new/preferences");
       }
       req.flash("success", "Alert added.");
+      store.clearSessionData(req.session);
       res.redirect("/alerts");
     }
   })
