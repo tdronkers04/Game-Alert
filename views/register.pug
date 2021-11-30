@@ -1,0 +1,41 @@
+extends layout 
+
+block main 
+
+  form(action=`/users/register` method="post")
+        dl  
+          dt 
+            label(for="email") e-mail Address: 
+          dd 
+            input(type="email"
+                  name="email"
+                  placeholder="name@host.com"
+                  required)
+        dl  
+          dt 
+            label(for="phone") Mobile Phone: 
+          dd 
+            input(type="tel"
+                  name="phone"
+                  placeholder="###-###-####"
+                  required)
+        dl          
+          dt 
+            label(for="password") Password: 
+          dd 
+            input(type="password"
+                  name="password"
+                  required)
+        dl  
+          dt 
+            label(for="password") Confirm Password: 
+          dd 
+            input(type="password"
+                  name="passwordConfirm"
+                  required)
+        
+        fieldset.actions  
+          input(type="submit" value="Submit")
+          a(href="/alerts") Cancel    
+
+block signIn

@@ -3,7 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const flash = require("express-flash");
 const session = require("express-session");
-// const { body, validationResult } = require("express-validator");
+const { body, validationResult, check } = require("express-validator");
 const store = require("connect-loki");
 const PgPersistence = require("./lib/pg-persistence");
 const catchError = require("./lib/catch-error");
@@ -188,6 +188,62 @@ app.get("/alert/:alertId",
     }
   })
 );
+
+app.get("/users/register", (req, res) => {
+  req.flash("info", `Please register an account to continue.`);
+  res.render("register", {
+    flash: req.flash(),
+  });
+});
+
+// const validatePassword = (password) => {
+//   return check(password)
+//     .trim()
+//     .isLength({ min: 8 })
+//     .withMessage(`Password should be at least 8 characters long.`)
+//     .custom((password) => {
+//       if (async (password)) {
+//         throw new Error ('PAssword must be the same');
+//       }
+//     });
+// };
+
+
+app.post("/users/register",
+  [
+    body("email")
+      .isEmail()
+      .withMessage("Please enter a valid email address."),
+    body("phone")
+      .trim()
+      .matches(/^\d\d\d-\d\d\d-\d\d\d\d$/)
+      .withMessage("Invalid phone number format. Use ###-###-####"),
+    body("password")
+      .trim()
+      .isLength({ min: 5, max: 25 })
+      .withMessage("Password must be between 5 and 25 characters long."),
+    body("passwordConfirm")
+      .custom((value, { req }) => {
+        if (value !== req.body.password) {
+          throw new Error('Password confirmation does not match password');
+        }
+        return true;
+      })
+  ],
+  catchError(async (req, res) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      errors.array().forEach(error => req.flash("error", error.msg));
+      res.render("register", {
+        flash: req.flash()
+      });
+    } else {
+      console.log('Hello'); // left off HERE :)
+    }
+  })
+
+);
+
 
 app.get("/users/signin", (req, res) => {
   req.flash("info", `Please sign in.`);
