@@ -3,11 +3,10 @@ const express = require("express");
 const morgan = require("morgan");
 const flash = require("express-flash");
 const session = require("express-session");
-const { body, validationResult, check } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 const store = require("connect-loki");
 const PgPersistence = require("./lib/pg-persistence");
 const catchError = require("./lib/catch-error");
-
 
 const app = express();
 const host = config.HOST;
@@ -196,19 +195,6 @@ app.get("/users/register", (req, res) => {
   });
 });
 
-// const validatePassword = (password) => {
-//   return check(password)
-//     .trim()
-//     .isLength({ min: 8 })
-//     .withMessage(`Password should be at least 8 characters long.`)
-//     .custom((password) => {
-//       if (async (password)) {
-//         throw new Error ('PAssword must be the same');
-//       }
-//     });
-// };
-
-
 app.post("/users/register",
   [
     body("email")
@@ -238,12 +224,20 @@ app.post("/users/register",
         flash: req.flash()
       });
     } else {
-      console.log('Hello'); // left off HERE :)
+      let store = res.locals.store;
+      let createdUser = await store.createNewUser(req.body);
+
+      if (createdUser) {
+        req.flash("success", "New Account Created. Please sign in.");
+        // res.redirect("/users/signin");
+        res.render("sign-in", { flash : req.flash() });
+      } else {
+        req.flash("error", "Something went wrong...");
+        res.render("register", { flash : req.flash() });
+      }
     }
   })
-
 );
-
 
 app.get("/users/signin", (req, res) => {
   req.flash("info", `Please sign in.`);
@@ -302,11 +296,13 @@ app.post("/alert/:alertId/deactivate",
     let store = res.locals.store;
     let alertId = Number(req.params.alertId);
     let deactivatedAlert = await store.deactivateAlert(alertId);
+    let loadedAlert = await store.loadAlert(alertId);
 
     if (!deactivatedAlert) {
       throw new Error("Not Found.");
     } else {
-      req.flash("success", `Alert has been deactivated.`);
+      req.flash("success",
+        `Alert has been ${loadedAlert.active ? 'Activated' : 'Deactivated'}.`);
     }
     res.redirect(`/alerts`);
   })
