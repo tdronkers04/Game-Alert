@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars*/
 const config = require("./lib/config");
 const express = require("express");
 const morgan = require("morgan");
@@ -60,6 +61,7 @@ app.get("/alerts",
   requiresAuthentication,
   catchError(async (req, res) => {
     let store = res.locals.store;
+    store.clearSessionData(req.session);
     let alerts = await store.loadAllAlerts();
     res.render("alerts", {
       alerts,
@@ -165,7 +167,6 @@ app.post("/alerts/new/preferences",
         res.redirect("/alerts/new/preferences");
       }
       req.flash("success", "Alert added.");
-      store.clearSessionData(req.session);
       res.redirect("/alerts");
     }
   })
@@ -256,7 +257,7 @@ app.post("/users/signin/",
     if (authenticatedUser) {
       req.session.username = username;
       req.session.signedIn = true;
-      req.flash("info", `"Welcome!`);
+      req.flash("info", `Welcome!`);
       res.redirect("/alerts");
     } else {
       req.flash("error", "Invalid credentials");
