@@ -3,3 +3,4 @@ node_modules
 .eslintrc.yml
 session-store.db
 lib/seed-data.sql
+.DS_Store
