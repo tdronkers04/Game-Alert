@@ -2,5 +2,5 @@ node_modules
 .env
 .eslintrc.yml
 session-store.db
-lib/seed-data.sql
+lib/data-loads
 .DS_Store
