@@ -1,4 +1,20 @@
+const { config } = require("dotenv");
 const { Client } = require("pg");
+
+require('dotenv').config();
+const accountSid = config.TWILIO_ACCOUNT_SID;
+const authToken = config.TWILIO_AUTH_TOKEN;
+const client = require('twilio')(accountSid, authToken);
+
+function twilioAPICALL(alertObject) {
+  client.messages.create({
+    body: `GAME ALERT! ${alertObject.team_name_full} play tonight on ${alertObject.tv_network}`,
+    from: '+14174532888',
+    to: `+1${alertObject.sms_phone_number}`,
+  })
+    .then( message => console.log(message))
+    .catch((err) => console.log(err));
+}
 
 const today = new Date();
 const year = today.getFullYear(); // 2021
@@ -40,6 +56,9 @@ async function getGames() {
 
 (async () => {
   const games = await getGames();
-  console.log(games.rows);
+  games.rows.forEach(game => {
+    console.log(game);
+    twilioAPICALL(game);
+  });
 })();
 

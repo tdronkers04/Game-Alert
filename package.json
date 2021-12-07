@@ -22,7 +22,8 @@
     "express-validator": "^6.13.0",
     "morgan": "^1.10.0",
     "pg": "^8.7.1",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "twilio": "^3.71.3"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
