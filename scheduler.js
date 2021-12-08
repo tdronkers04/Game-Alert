@@ -4,10 +4,10 @@ const { Client } = require("pg");
 require('dotenv').config();
 const accountSid = config.TWILIO_ACCOUNT_SID;
 const authToken = config.TWILIO_AUTH_TOKEN;
-const client = require('twilio')(accountSid, authToken);
+const twilioClient = require('twilio')(accountSid, authToken);
 
 function twilioAPICALL(alertObject) {
-  client.messages.create({
+  twilioClient.messages.create({
     body: `GAME ALERT! ${alertObject.team_name_full} play tonight on ${alertObject.tv_network}`,
     from: '+14174532888',
     to: `+1${alertObject.sms_phone_number}`,
@@ -17,9 +17,9 @@ function twilioAPICALL(alertObject) {
 }
 
 const today = new Date();
-const year = today.getFullYear(); // 2021
-const month = today.getMonth(); // zero-based index
-const day = today.getDate(); // 6
+const year = today.getFullYear();
+const month = today.getMonth();
+const day = today.getDate();
 
 const todayStart = new Date(year, month, day);
 const todayEnd = new Date(year, month, day, 23);
@@ -31,7 +31,7 @@ const credentials = {
   port: 5432
 };
 
-async function getGames() {
+async function getTodaysAlerts() {
   const client = new Client(credentials);
   await client.connect();
   const sqlHOME = "SELECT s.game_date_utc, s.tv_network, a.team_id, t.team_name_full, a.user_id, a.mode, a.freq, a.active, u.email_address, u.sms_phone_number" +
@@ -55,10 +55,17 @@ async function getGames() {
 }
 
 (async () => {
-  const games = await getGames();
-  games.rows.forEach(game => {
-    console.log(game);
-    twilioAPICALL(game);
-  });
+  const games = await getTodaysAlerts();
+  if (games.rowCount === 0) {
+    console.log("No alerts today.");
+  } else {
+    games.rows.forEach(game => {
+      if (game.mode === 'email') {
+        console.log('implement email API call here...');
+      } else if (game.mode === 'sms') {
+        twilioAPICALL(game);
+      }
+    });
+  }
 })();
 
