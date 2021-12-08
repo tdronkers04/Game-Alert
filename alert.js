@@ -6,6 +6,8 @@ const flash = require("express-flash");
 const session = require("express-session");
 const { body, validationResult } = require("express-validator");
 const store = require("connect-loki");
+const schedule = require("node-schedule");
+const { queryAlerts } = require("./lib/notify");
 const PgPersistence = require("./lib/pg-persistence");
 const catchError = require("./lib/catch-error");
 
@@ -230,7 +232,6 @@ app.post("/users/register",
 
       if (createdUser) {
         req.flash("success", "New Account Created. Please sign in.");
-        // res.redirect("/users/signin");
         res.render("sign-in", { flash : req.flash() });
       } else {
         req.flash("error", "Something went wrong...");
@@ -316,4 +317,8 @@ app.use((err, req, res, _next) => {
 
 app.listen(port, host, () => {
   console.log(`Game-Alert is listening on port ${port} of ${host}`);
+});
+
+schedule.scheduleJob('*/1 * * * *', function() {
+  queryAlerts();
 });
