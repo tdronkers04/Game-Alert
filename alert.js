@@ -319,6 +319,6 @@ app.listen(port, host, () => {
   console.log(`Game-Alert is listening on port ${port} of ${host}`);
 });
 
-schedule.scheduleJob('*/1 * * * *', function() {
+schedule.scheduleJob('0 11 * * *', function() {
   queryAlerts();
 });
