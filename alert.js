@@ -321,11 +321,11 @@ app.listen(port, host, () => {
 
 
 // EVERY DAY AT 11AM MST:
-// schedule.scheduleJob('0 11 * * *', function() {
-//   queryAlerts();
-// });
-
-// EVERY OTHER MINUTE (TEST):
-schedule.scheduleJob('*/1 * * * *', function() {
+schedule.scheduleJob('0 11 * * *', function() {
   queryAlerts();
 });
+
+// EVERY OTHER MINUTE (TEST):
+// schedule.scheduleJob('*/1 * * * *', function() {
+//   queryAlerts();
+// });
