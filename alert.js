@@ -6,7 +6,7 @@ const flash = require("express-flash");
 const session = require("express-session");
 const { body, validationResult } = require("express-validator");
 const store = require("connect-loki");
-const schedule = require("node-schedule");
+const { CronJob } = require("cron");
 const { queryAlerts } = require("./lib/notify");
 const PgPersistence = require("./lib/pg-persistence");
 const catchError = require("./lib/catch-error");
@@ -320,12 +320,22 @@ app.listen(port, host, () => {
 });
 
 
-// EVERY DAY AT 11AM MST:
-// schedule.scheduleJob('0 11 * * *', function() {
-//   queryAlerts();
-// });
+// EVERY DAY AT 11AM EST:
+// const getDailyAlerts = new CronJob(
+//   '0 11 * * *',
+//   queryAlerts,
+//   null,
+//   false,
+//   'America/New_York',
+// );
 
 // EVERY OTHER MINUTE (TEST):
-schedule.scheduleJob('*/1 * * * *', function() {
-  queryAlerts();
-});
+const getDailyAlerts = new CronJob(
+  '*/1 * * * *',
+  queryAlerts,
+  null,
+  false,
+  'America/New_York',
+);
+
+getDailyAlerts.start();
