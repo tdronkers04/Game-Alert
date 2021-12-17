@@ -19,17 +19,17 @@ CREATE TABLE schedules (
   home_team_id int NOT NULL REFERENCES teams (id),
   away_team_id int NOT NULL REFERENCES teams (id),
   season int NOT NULL,
-  game_date date NOT NULL,
+  game_date_utc timestamp with time zone NOT NULL,
   tv_network text NOT NULL,
-  tv_show text NOT NULL,
-  national_broadcast boolean NOT NULL
+  national_broadcast boolean,
 );
 
 CREATE TABLE users (
   id serial PRIMARY KEY,
   first_name text NOT NULL,
   email_address text NOT NULL,
-  sms_phone_number text NOT NULL
+  sms_phone_number text NOT NULL,
+  password text NOT NULL,
 );
 
 CREATE TABLE alerts (

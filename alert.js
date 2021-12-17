@@ -326,6 +326,6 @@ app.listen(port, host, () => {
 // });
 
 // EVERY OTHER MINUTE (TEST):
-schedule.scheduleJob('*/1 * * * *', function() {
-  queryAlerts();
-});
+// schedule.scheduleJob('*/1 * * * *', function() {
+//   queryAlerts();
+// });
