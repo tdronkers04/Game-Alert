@@ -39,7 +39,7 @@ app.use(session({
 
 app.use(flash());
 app.use((req, res, next) => {
-  res.locals.username = req.session.username;
+  res.locals.email = req.session.email;
   res.locals.signedIn = req.session.signedIn;
   res.locals.flash = req.session.flash;
   delete req.session.flash;
@@ -250,13 +250,13 @@ app.get("/users/signin", (req, res) => {
 
 app.post("/users/signin/",
   catchError(async (req, res) => {
-    let username = req.body.username.trim();
+    let email = req.body.email.trim();
     let password = req.body.password;
     let store = res.locals.store;
-    let authenticatedUser = await store.authenticateUser(username, password);
+    let authenticatedUser = await store.authenticateUser(email, password);
 
     if (authenticatedUser) {
-      req.session.username = username;
+      req.session.email = email;
       req.session.signedIn = true;
       req.flash("info", `Welcome!`);
       res.redirect("/alerts");
@@ -264,14 +264,14 @@ app.post("/users/signin/",
       req.flash("error", "Invalid credentials");
       res.render("sign-in", {
         flash : req.flash(),
-        username : username
+        email : email
       });
     }
   })
 );
 
 app.post("/users/signout", (req, res) => {
-  delete req.session.username;
+  delete req.session.email;
   delete req.session.signedIn;
   res.redirect("/users/signin");
 });
@@ -326,6 +326,6 @@ app.listen(port, host, () => {
 // });
 
 // EVERY OTHER MINUTE (TEST):
-// schedule.scheduleJob('*/1 * * * *', function() {
-//   queryAlerts();
-// });
+schedule.scheduleJob('*/1 * * * *', function() {
+  queryAlerts();
+});

@@ -5,12 +5,12 @@ block main
   form(action=`/users/signin` method="post")
         dl  
           dt 
-            label(for="username") Username: 
+            label(for="username") e-mail Address: 
           dd 
             input(type="text"
-                  name="username"
-                  placeholder= (username ? username : "username")
-                  value=username)
+                  name="email"
+                  placeholder= (email ? email : "name@doman.com")
+                  value=email)
           dt 
             label(for="password") Password: 
           dd 

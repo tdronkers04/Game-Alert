@@ -26,7 +26,6 @@ CREATE TABLE schedules (
 
 CREATE TABLE users (
   id serial PRIMARY KEY,
-  first_name text NOT NULL,
   email_address text NOT NULL,
   sms_phone_number text NOT NULL,
   password text NOT NULL,
@@ -35,7 +34,7 @@ CREATE TABLE users (
 CREATE TABLE alerts (
   id serial PRIMARY KEY,
   team_id int NOT NULL REFERENCES teams (id),
-  user_id int NOT NULL REFERENCES users (id),
+  user_id int NOT NULL REFERENCES users (id) ON DELETE CASCADE,
   mode text NOT NULL,
   freq text NOT NULL,
   active boolean NOT NULL
