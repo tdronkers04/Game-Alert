@@ -4,6 +4,14 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  color:#ffffff;
+}
+
+#login-header {
+  color: #ffffff;
+  text-align: center;
+  font-size: 30px;
+  width: 38%;
 }
 
 a {
@@ -42,8 +50,8 @@ body > header .actions a {
 }
 
 form fieldset.actions a {
-  color: #666666;
-
+  color: #ffffff;
+  font: normal 24px "PT Sans", Helvetica, Arial, sans-serif;
   -moz-transition: color 200ms ease;
   -o-transition: color 200ms ease;
   -webkit-transition: color 200ms ease;
