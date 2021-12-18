@@ -338,4 +338,4 @@ const getDailyAlerts = new CronJob(
   'America/New_York',
 );
 
-getDailyAlerts.start();
+// getDailyAlerts.start();

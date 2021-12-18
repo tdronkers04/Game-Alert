@@ -1,0 +1,34 @@
+doctype html 
+
+html(lang="en-US")
+
+  head 
+    title Game-Alert
+    meta(charset="UTF-8")
+    link(rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans")
+    link(rel="stylesheet" href="/stylesheets/whitespace-reset.css")
+    link(rel="stylesheet" href="/stylesheets/application.css")
+    script(src="/javascripts/application.js")
+  
+  body#login 
+    header 
+      h1 Game Alert
+      block headerLinks 
+    
+    main  
+      - let kinds = Object.keys(flash || {});
+      if kinds.length > 0
+        ul 
+          each kind in kinds 
+            each message in flash[kind]
+              li.flash(class=kind)= message
+
+      block main 
+
+    footer
+      block signIn
+        form(action="/users/signout" method ="post")
+          fieldset.actions 
+            p Signed in as #{email}
+            button Sign Out
+        
