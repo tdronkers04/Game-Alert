@@ -329,13 +329,4 @@ const getDailyAlerts = new CronJob(
   'America/New_York',
 );
 
-// EVERY OTHER MINUTE (TEST):
-// const getDailyAlerts = new CronJob(
-//   '*/1 * * * *',
-//   queryAlerts,
-//   null,
-//   false,
-//   'America/New_York',
-// );
-
 getDailyAlerts.start();
