@@ -321,21 +321,21 @@ app.listen(port, host, () => {
 
 
 // EVERY DAY AT 11AM EST:
-// const getDailyAlerts = new CronJob(
-//   '0 11 * * *',
-//   queryAlerts,
-//   null,
-//   false,
-//   'America/New_York',
-// );
-
-// EVERY OTHER MINUTE (TEST):
 const getDailyAlerts = new CronJob(
-  '*/1 * * * *',
+  '0 12 * * *',
   queryAlerts,
   null,
   false,
   'America/New_York',
 );
 
-// getDailyAlerts.start();
+// EVERY OTHER MINUTE (TEST):
+// const getDailyAlerts = new CronJob(
+//   '*/1 * * * *',
+//   queryAlerts,
+//   null,
+//   false,
+//   'America/New_York',
+// );
+
+getDailyAlerts.start();
