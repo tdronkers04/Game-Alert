@@ -320,9 +320,18 @@ app.listen(port, host, () => {
 });
 
 
-// EVERY DAY AT 11AM EST:
+// EVERY DAY AT 12AM EST:
+// const getDailyAlerts = new CronJob(
+//   '0 12 * * *',
+//   queryAlerts,
+//   null,
+//   false,
+//   'America/New_York',
+// );
+
+// TEST
 const getDailyAlerts = new CronJob(
-  '0 12 * * *',
+  '30 3 * * *',
   queryAlerts,
   null,
   false,
