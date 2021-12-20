@@ -331,7 +331,7 @@ app.listen(port, host, () => {
 
 // TEST
 const getDailyAlerts = new CronJob(
-  '40 15 * * *',
+  '*/2 * * * *',
   queryAlerts,
   null,
   false,
