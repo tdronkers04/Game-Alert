@@ -18,7 +18,7 @@ CREATE TABLE schedules (
   league_id int NOT NULL REFERENCES leagues (id),
   home_team_id int NOT NULL REFERENCES teams (id),
   away_team_id int NOT NULL REFERENCES teams (id),
-  season int NOT NULL,
+  season text NOT NULL,
   game_date_utc timestamp with time zone NOT NULL,
   tv_network text NOT NULL,
   national_broadcast boolean
