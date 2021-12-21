@@ -59,6 +59,14 @@ const requiresAuthentication = (req, res, next) => {
   }
 };
 
+app.get("/", (req, res) => {
+  res.redirect("/welcome");
+});
+
+app.get("/welcome", (req, res) => {
+  res.render("welcome");
+});
+
 app.get("/alerts",
   requiresAuthentication,
   catchError(async (req, res) => {
@@ -70,14 +78,6 @@ app.get("/alerts",
     });
   })
 );
-
-app.get("/", (req, res) => {
-  res.redirect("/alerts");
-});
-
-app.get("/alert", (req, res) => {
-  res.redirect("/alerts");
-});
 
 app.get("/alerts/new/league",
   requiresAuthentication,
@@ -331,7 +331,7 @@ const getDailyAlerts = new CronJob(
 
 // TEST
 // const getDailyAlerts = new CronJob(
-//   '*/2 * * * *',
+//   '*/1 * * * *',
 //   queryAlerts,
 //   null,
 //   false,

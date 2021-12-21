@@ -1,4 +1,4 @@
-#login { 
+#welcome { 
   background: url("../images/field.jpg") no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -7,11 +7,40 @@
   color:#ffffff;
 }
 
-#login-header {
+#welcome-header {
   color: #ffffff;
   text-align: center;
   font-size: 30px;
   width: 38%;
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+#screenshots {
+  display: grid;
+  width: 50%;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  padding: 1rem;
+}
+
+#screenshot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid black; */
+}
+
+#screenshot-img {
+  max-width: 75%;
+  height: auto;
+  border: 2px solid black;
+  border-radius: 25px;
 }
 
 a {
@@ -50,7 +79,6 @@ body > header .actions a {
 }
 
 form fieldset.actions a {
-  color: #ffffff;
   font: normal 24px "PT Sans", Helvetica, Arial, sans-serif;
   -moz-transition: color 200ms ease;
   -o-transition: color 200ms ease;
@@ -151,6 +179,11 @@ form input[type="submit"]:hover {
 
 form fieldset.actions a:hover {
   color: #b00b00;
+}
+
+form fieldset.actions button:hover {
+  background-color:#b00b00;
+  color: #ffffff;
 }
 
 .flash {

@@ -1,0 +1,33 @@
+doctype html 
+
+html(lang="en-US")
+
+  head 
+    title Game-Alert
+    meta(charset="UTF-8")
+    link(rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans")
+    link(rel="stylesheet" href="/stylesheets/whitespace-reset.css")
+    link(rel="stylesheet" href="/stylesheets/application.css")
+    script(src="/javascripts/application.js")
+  
+  body#welcome 
+    header#welcome-header
+      h2 Game Alert
+      p Custom event reminders for your 
+      p favorite sports
+      block headerLinks 
+    
+    div#wrapper
+      div#screenshots
+        div#screenshot
+          img#screenshot-img(src="/images/email-screenshot.png", alt="screenshot of email notification on phone")
+        div#screenshot
+          img#screenshot-img(src="/images/text-screenshot.png", alt="screenshot of text notification on phone")
+
+    footer
+      div#wrapper
+        block signIn
+          form(action="/alerts" method ="get")
+            fieldset.actions 
+              button Sign In/ Register
+        
