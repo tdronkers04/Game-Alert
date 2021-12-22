@@ -320,22 +320,22 @@ app.listen(port, host, () => {
 });
 
 
-// EVERY DAY AT NOON EST:
-// const getDailyAlerts = new CronJob(
-//   '0 12 * * *',
-//   queryAlerts,
-//   null,
-//   false,
-//   'America/New_York',
-// );
-
-// TEST
+// EVERY DAY AT NOON NYC TIME:
 const getDailyAlerts = new CronJob(
-  '45 12 * * *',
+  '0 12 * * *',
   queryAlerts,
   null,
   false,
   'America/New_York',
 );
+
+// TEST
+// const getDailyAlerts = new CronJob(
+//   '45 12 * * *',
+//   queryAlerts,
+//   null,
+//   false,
+//   'America/New_York',
+// );
 
 getDailyAlerts.start();
