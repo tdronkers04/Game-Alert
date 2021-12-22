@@ -1,7 +1,7 @@
 {
-  "name": "development",
+  "name": "game-alert",
   "version": "1.0.0",
-  "description": "Game Alert",
+  "description": "This app provides custom event reminders for your favorite sports",
   "main": "alert.js",
   "directories": {
     "lib": "lib"
@@ -12,6 +12,14 @@
   },
   "author": "Tim Dronkers",
   "license": "ISC",
+  "homepage": "https://www.gamealert.app/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tdronkers04/Game-Alert.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tdronkers04/Game-Alert/issues"
+  },
   "dependencies": {
     "bcrypt": "^5.0.1",
     "connect-loki": "^1.2.0",
