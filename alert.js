@@ -319,24 +319,23 @@ app.listen(port, host, () => {
   console.log(`Game-Alert is listening on port ${port} of ${host}`);
 });
 
-
 // EVERY DAY AT NOON NYC TIME:
-// const getDailyAlerts = new CronJob(
-//   '0 12 * * *',
-//   queryAlerts,
-//   null,
-//   false,
-//   'America/New_York',
-// );
-
-// TEST
 const getDailyAlerts = new CronJob(
-  // '* * * * *',
-  '5 17 * * *',
+  '0 12 * * *',
   queryAlerts,
   null,
   false,
   'America/New_York',
 );
+
+// TEST
+// const getDailyAlerts = new CronJob(
+//   // '* * * * *',
+//   '5 17 * * *',
+//   queryAlerts,
+//   null,
+//   false,
+//   'America/New_York',
+// );
 
 getDailyAlerts.start();
